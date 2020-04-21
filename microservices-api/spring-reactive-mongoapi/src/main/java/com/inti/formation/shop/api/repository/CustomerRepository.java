@@ -84,12 +84,11 @@ public interface CustomerRepository extends ReactiveMongoRepository<Customer, St
 
 
     /**
-     *
-     * @param date1
-     * @param date2
+     * Utilisation de Between
+     * @param date
      * @return
      */
-    Flux<Customer> findByDateNaissanceBetween( final Date date1,  final Date date2);
+    Flux<Customer> findByDateNaissanceBetween( final Date date1, final Date date2);
 
 
 }
