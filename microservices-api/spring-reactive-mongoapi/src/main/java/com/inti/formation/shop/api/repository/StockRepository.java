@@ -1,12 +1,9 @@
 package com.inti.formation.shop.api.repository;
 
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.inti.formation.shop.api.repository.model.Stockinit;
-
-import reactor.core.publisher.Flux;
+import com.inti.formation.shop.api.repository.model.Stock;
 
 /**
  * 
@@ -15,7 +12,7 @@ import reactor.core.publisher.Flux;
  */
 
 @Repository
-public interface StockinitRepository extends ReactiveMongoRepository<Stockinit, Long>{
+public interface StockRepository extends ReactiveMongoRepository<Stock, Long>{
 	
 //	/**
 //	 *
