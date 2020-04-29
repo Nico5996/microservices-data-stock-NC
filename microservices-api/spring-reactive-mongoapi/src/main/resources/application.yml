@@ -7,7 +7,23 @@ spring:
 
       uri: mongodb://192.168.99.100:27017,192.168.99.100:27017
       database: shop
-  server: 
-    port: 8082
+server: 
+  port: 8081
+  
+  # kafka
+kafka:
+  bootstrap-server: 192.168.99.100:29092
+  acks: all
+  retries: 2147483647
+  batch-size: 131072
+  buffer-memory: 80000000
+  client-id: producerStock
+  idempotence: true
+  compression-type: lz4
+  topic-name: stock-v1
+  user: producer-user
+  password: producer-pwd
+
+schedule-time: 300
 
 

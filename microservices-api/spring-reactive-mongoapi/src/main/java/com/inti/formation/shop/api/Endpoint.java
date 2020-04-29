@@ -8,15 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
-import com.inti.formation.shop.api.repository.model.Stock;
 import com.inti.formation.shop.api.rest.bean.StockRequest;
 import com.inti.formation.shop.api.rest.exception.InternalServerException;
 import com.inti.formation.shop.api.rest.exception.ValidationParameterException;
@@ -24,12 +21,11 @@ import com.inti.formation.shop.api.service.IStockService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/shop") // toutes mes api vont commencer par V1shop
+@RequestMapping(value = "/v1/stock") // toutes mes api vont commencer par V1shop
 @Slf4j
 
 //Controller, Root
@@ -68,12 +64,5 @@ public class Endpoint {
 		});
 	}
 
-	@GetMapping
-	@RequestMapping(value = "/stocks/")
-	public Flux<Stock> getStock() {
-		log.info("All customers searching");
-		return stockService.getStock()
-				// uses of map
-				.switchIfEmpty(Flux.error(new ResponseStatusException(HttpStatus.NOT_FOUND))).map(stock -> stock);
-	}
+
 }
