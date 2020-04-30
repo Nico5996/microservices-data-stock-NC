@@ -55,7 +55,7 @@
     <modules>
         <module>microservices-utils</module>
         <module>microservices-common-libs</module>
-        <module>microservices-api</module>
+        <module>microservices-apistock</module>
     </modules>
 
     <dependencyManagement>
