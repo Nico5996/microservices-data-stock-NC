@@ -37,12 +37,12 @@ public class ProducerBuilderStock {
 	public void scheduleFixedDelayTask() {
 		Integer defectNumber = new Random().ints(1, (1000 + 1)).findFirst().getAsInt();
 		Stock stock = new Stock();
-//		stock.setId(defectNumber.toString());
-//		stock.setMagasin(defectNumber.toString());
-//		stock.setQuantite(defectNumber);
-//		stock.setIdproduct(defectNumber);
-//		stock.setDate(new Date());
-//		stock.setActive(true);
+		stock.setId(defectNumber.toString());
+		stock.setMagasin(defectNumber.toString());
+		stock.setQuantite(defectNumber);
+		stock.setIdproduct(defectNumber);
+		stock.setDate(new Date());
+		stock.setActive(true);
 		
 		
 		ProducerRecord<String, Stock> producerRecord = new ProducerRecord<>(StockTopic, stock.getId(),stock);

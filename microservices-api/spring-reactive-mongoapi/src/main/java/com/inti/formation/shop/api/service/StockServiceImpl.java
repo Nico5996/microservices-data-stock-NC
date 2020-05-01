@@ -22,11 +22,14 @@ public class StockServiceImpl implements IStockService {
 	}
 
 	@Override
-	public void deleteById(String id) {
-		stockRepository.deleteById(id);
+	public Mono<Void> deleteById(String id) {
+		return stockRepository.deleteById(id);
 		
 	}
 
-	
+	@Override
+	public Mono<Stock> findById(String id) {
+		return stockRepository.findById(id);
+	}
 
 }
