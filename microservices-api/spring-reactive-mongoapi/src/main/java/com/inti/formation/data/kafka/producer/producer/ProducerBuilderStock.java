@@ -45,7 +45,7 @@ public class ProducerBuilderStock {
 //		stock.setActive(true);
 		
 		
-		ProducerRecord<String, Stock> producerRecord = new ProducerRecord<>("test", stock.getId(),stock);
+		ProducerRecord<String, Stock> producerRecord = new ProducerRecord<>("delete-product-v1", stock.getId(),stock);
 		kafka.send(producerRecord);
 	}
 
