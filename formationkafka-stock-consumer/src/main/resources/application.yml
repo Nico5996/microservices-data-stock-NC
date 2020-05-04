@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: spring-rective-mongoapi
+
+  data:
+    mongodb:
+
+      uri: mongodb://192.168.99.100:27017,192.168.99.100:27017
+      database: stock
+server: 
+  port: 8081
+
+kafka:
+  boot-server: 192.168.99.100:29092
+  topic-name: delete-product-v1
+  consumer-group-id: formationkafka-stock-consumer-groupeId
+  client-id: producerStock
+  
