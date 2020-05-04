@@ -34,19 +34,19 @@ public class ProducerBuilderStock {
 
 	// milliseconds
 	@Scheduled(fixedDelayString = "${schedule-time}")
-	public void scheduleFixedDelayTask() {
+	public void scheduleFixedDelayTask(KafkaTemplate<String, Stock> kafka) {
 		Integer defectNumber = new Random().ints(1, (1000 + 1)).findFirst().getAsInt();
 		Stock stock = new Stock();
 		stock.setId(defectNumber.toString());
 		stock.setMagasin(defectNumber.toString());
-		stock.setQuantite(defectNumber);
-		stock.setIdproduct(defectNumber);
-		stock.setDate(new Date());
-		stock.setActive(true);
+//		stock.setQuantite(defectNumber);
+//		stock.setIdproduct(defectNumber);
+//		stock.setDate(new Date());
+//		stock.setActive(true);
 		
 		
-		ProducerRecord<String, Stock> producerRecord = new ProducerRecord<>(StockTopic, stock.getId(),stock);
-		kafkaTemplate.send(producerRecord);
+		ProducerRecord<String, Stock> producerRecord = new ProducerRecord<>("test", stock.getId(),stock);
+		kafka.send(producerRecord);
 	}
 
 }

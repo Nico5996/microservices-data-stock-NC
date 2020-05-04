@@ -6,10 +6,17 @@ import org.springframework.stereotype.Component;
 import com.inti.formation.shop.api.repository.StockRepository;
 import com.inti.formation.shop.api.repository.model.Stock;
 
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
-@Component
+/**
+ * 
+ * @author Cecile Pieters
+ *
+ */
 
+@Component
+@Slf4j
 public class StockServiceImpl implements IStockService {
 
 	@Autowired

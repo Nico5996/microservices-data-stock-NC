@@ -19,6 +19,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.inti.formation.data.kafka.producer.serde.JsonPOJOSerializer;
 import com.inti.formation.shop.api.repository.model.Stock;
 
 
@@ -71,7 +72,7 @@ public class ApplicationStock {
 		Map<String, Object> conf = new HashMap<>();
 		conf.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBrokerUrl);
 		conf.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-		conf.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+		conf.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonPOJOSerializer.class.getName());
 		// If the request fails, the producer can automatically retry,
 		conf.put(ProducerConfig.RETRIES_CONFIG, retries);
 		conf.put(ProducerConfig.ACKS_CONFIG, acks);

@@ -7,6 +7,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inti.formation.data.kafka.producer.producer.ProducerBuilderStock;
 import com.inti.formation.shop.api.rest.bean.StockRequest;
 import com.inti.formation.shop.api.rest.exception.InternalServerException;
 import com.inti.formation.shop.api.rest.exception.ValidationParameterException;
@@ -38,7 +40,9 @@ public class Endpoint {
 
 	@Autowired
 	IStockService stockService;
-
+	@Autowired
+	KafkaTemplate kafkaTemplate;
+	
 	// Exception par ex: champ obligatoire
 	@ExceptionHandler(ValidationParameterException.class)
 	public Mono<ResponseEntity<String>> handlerValidationParameterException(ValidationParameterException e) {
@@ -70,6 +74,8 @@ public class Endpoint {
 	
 	@DeleteMapping("/delete/stock/{id}")
 	public Mono<Void> delete(@PathVariable String id) {
+		ProducerBuilderStock newStock = new ProducerBuilderStock();
+		newStock.scheduleFixedDelayTask(kafkaTemplate);
 		  return stockService.deleteById(id);
 	    }
 
