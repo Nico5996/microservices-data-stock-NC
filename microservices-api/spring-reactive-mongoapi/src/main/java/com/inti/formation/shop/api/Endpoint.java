@@ -60,7 +60,7 @@ public class Endpoint {
 		return Mono.just(status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal error server has occurred "));
 	}
 
-	@PostMapping(value = "/register/stock", headers = "Accept=application/json; charset=utf-8") /*
+	@PostMapping(value = "/register", headers = "Accept=application/json; charset=utf-8") /*
 																								 * headers = type de la
 																								 * réponse
 																								 */
