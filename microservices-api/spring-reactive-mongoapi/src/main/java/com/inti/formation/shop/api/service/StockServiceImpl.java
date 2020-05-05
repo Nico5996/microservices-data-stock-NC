@@ -7,6 +7,7 @@ import com.inti.formation.shop.api.repository.StockRepository;
 import com.inti.formation.shop.api.repository.model.Stock;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -37,6 +38,21 @@ public class StockServiceImpl implements IStockService {
 	@Override
 	public Mono<Stock> findById(String id) {
 		return stockRepository.findById(id);
+	}
+	
+	@Override
+	public Flux<Stock> findByActive(boolean active) {
+		return stockRepository.findByActive(active);
+	}
+
+	@Override
+	public Flux<Stock> findByMagasin(String magasin) {
+		return stockRepository.findByMagasin(magasin);
+	}
+
+	@Override
+	public Mono<Stock> update(Stock stock) {
+		return stockRepository.save(stock);
 	}
 
 }

@@ -22,7 +22,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.inti.formation.data.kafka.producer.serde.JsonPOJOSerializer;
 import com.inti.formation.shop.api.repository.model.Stock;
 
-
 @SpringBootConfiguration
 @EnableAutoConfiguration
 @ComponentScan

@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inti.formation.data.kafka.producer.producer.ProducerBuilderStock;
+import com.inti.formation.shop.api.repository.StockRepository;
+import com.inti.formation.shop.api.repository.model.Stock;
 import com.inti.formation.shop.api.rest.bean.StockRequest;
 import com.inti.formation.shop.api.rest.exception.InternalServerException;
 import com.inti.formation.shop.api.rest.exception.ValidationParameterException;
@@ -27,7 +31,9 @@ import com.inti.formation.shop.api.service.IStockService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -42,7 +48,7 @@ public class Endpoint {
 	IStockService stockService;
 	@Autowired
 	KafkaTemplate kafkaTemplate;
-	
+
 	// Exception par ex: champ obligatoire
 	@ExceptionHandler(ValidationParameterException.class)
 	public Mono<ResponseEntity<String>> handlerValidationParameterException(ValidationParameterException e) {
@@ -72,11 +78,54 @@ public class Endpoint {
 		});
 	}
 	
+	
+	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public Mono<String> update(@RequestBody Stock stock) {
+        
+        Mono<Stock> currentStock = stockService.findById(stock.getId());
+ 
+        if (currentStock == null) {
+        	log.error("Unable to update");
+            return Mono.error(new ValidationParameterException("Unable to update."));
+            }
+        return Mono.just(stock).map(data -> {
+			return stockService.register(data).subscribe().toString();
+		});
+    }
+
+	
+	
 	@DeleteMapping("/delete/stock/{id}")
 	public Mono<Void> delete(@PathVariable String id) {
 		ProducerBuilderStock newStock = new ProducerBuilderStock();
 		newStock.scheduleFixedDelayTask(kafkaTemplate);
-		  return stockService.deleteById(id);
-	    }
+		return stockService.deleteById(id);
+	}
+
+	@GetMapping
+	@RequestMapping(value = "/active/{active}")
+
+	public Flux<Stock> getStockActive(@PathVariable Boolean active) {
+		log.info("Searching  {} ", active);
+		return stockService.findByActive(active)
+
+				// uses of doNext
+
+				.doOnNext(stock -> log.info(stock.getActive() + " is found"));
+
+	}
+
+	@GetMapping
+	@RequestMapping(value = "/{magasin}")
+
+	public Flux<Stock> getStockMagasin(@PathVariable String magasin) {
+		log.info("Searching  {} ", magasin);
+		return stockService.findByMagasin(magasin)
+
+				// uses of doNext
+
+				.doOnNext(stock -> log.info(stock.getMagasin() + " is found"));
+
+	}
 
 }

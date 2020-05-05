@@ -23,5 +23,9 @@ public interface StockRepository extends ReactiveMongoRepository<Stock, Long> {
 	Mono<Void> deleteById(String id);
 
 	Mono<Stock> findById(String id);
+	
+	Flux<Stock> findByActive(Boolean active);
+	
+	Flux<Stock> findByMagasin(String magasin);
 
 }
